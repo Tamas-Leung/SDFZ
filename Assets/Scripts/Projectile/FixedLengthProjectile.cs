@@ -31,6 +31,5 @@ public class FixedLengthProjectile : MonoBehaviour, Projectile
         float percentageComplete = elapsedTime / duration;
 
         transform.position = Vector3.Lerp(startPosition, targetPosition, moveCurve.Evaluate(percentageComplete));
-
     }
 }

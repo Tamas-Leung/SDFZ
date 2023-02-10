@@ -39,14 +39,7 @@ public class PlayerMovement : MonoBehaviour
         //Sets speed for animator, changing from idle to movement
         anim.SetFloat("Speed", direction.magnitude);
 
-        //Flips character
 
-
-        if (direction.magnitude > 0.1 && direction.x != 0 && ((sr.transform.localScale.x > 0 && direction.x < 0) || (sr.transform.localScale.x < 0 && direction.x > 0)))
-        {
-            float xScale = Math.Abs(sr.transform.localScale.x);
-            sr.transform.localScale = new Vector2(direction.x > 0 ? xScale : -xScale, sr.transform.localScale.y);
-        }
 
         rb.velocity = direction;
 
