@@ -105,11 +105,9 @@ public class Player : MonoBehaviour
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerStay2D(Collider2D collider2D)
     {
-        //Take Damage
-        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+        if (collider2D.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
             if (damagedInvulnerabilityTimer <= 0 && !enemy.isDead)
             {

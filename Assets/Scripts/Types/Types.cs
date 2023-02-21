@@ -25,4 +25,19 @@ static class TypeMethods
                 return Color.white;
         }
     }
+
+    public static Type GetDisavantageType(Type type)
+    {
+        switch (type)
+        {
+            case Type.Wood:
+                return Type.Fire;
+            case Type.Fire:
+                return Type.Water;
+            case Type.Water:
+                return Type.Wood;
+            default:
+                return Type.None;
+        }
+    }
 }

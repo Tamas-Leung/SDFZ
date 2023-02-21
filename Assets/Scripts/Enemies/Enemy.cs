@@ -31,8 +31,16 @@ public class Enemy : MonoBehaviour
         if (collider.gameObject.TryGetComponent<Projectile>(out Projectile projectile))
         {
             Transform damagePopUpTransform = Instantiate(pfDamagePopUp, transform.position, Quaternion.identity);
+            float damageDealt = projectile.damage;
+            bool advantageDamage = false;
+            if (TypeMethods.GetDisavantageType(type) == projectile.damageType)
+            {
+                damageDealt = damageDealt * 1.5f;
+                advantageDamage = true;
+            }
+
             DamagePopUp damagePopUp = damagePopUpTransform.GetComponent<DamagePopUp>();
-            damagePopUp.Setup(projectile.damage);
+            damagePopUp.Setup(damageDealt, advantageDamage);
             currentHealth -= projectile.damage;
         }
     }

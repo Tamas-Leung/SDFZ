@@ -6,4 +6,5 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] public float attackSpeedCooldown;
     [SerializeField] public float damage;
+    [SerializeField] public Type type;
 }

@@ -16,9 +16,10 @@ public class DamagePopUp : MonoBehaviour
         disappearTimer = 0.3f;
     }
 
-    public void Setup(float damageAmount)
+    public void Setup(float damageAmount, bool advantageDamage)
     {
         textMesh.SetText(Mathf.RoundToInt(damageAmount).ToString());
+        if (advantageDamage) textMesh.fontSize = 5f;
     }
 
 
