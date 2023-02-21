@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour
         SpawnPlayer();
         SpawnEnemies();
 
+        player.OnCurrentHealthChange += CurrentHealthChange;
 
         gameState = GameState.Active;
     }
@@ -94,7 +95,11 @@ public class GameController : MonoBehaviour
         {
             EndWave();
         }
-        if (player.currentHealth <= 0)
+    }
+
+    void CurrentHealthChange(int newVal)
+    {
+        if (newVal <= 0)
         {
             gameState = GameState.Ended;
             Instantiate(loseScreenPrefab);
