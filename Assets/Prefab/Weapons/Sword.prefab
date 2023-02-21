@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -912659035
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 86d21811177886b49a07a9179cc1d831, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4811083665281929707}
   - component: {fileID: 2512364510919461454}
+  - component: {fileID: 1775105571216829653}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -132,6 +133,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1460065394103480733, guid: ee30a0545f68a714a9350600d8a6f04d, type: 3}
   aimWeaponEndPointTransform: {fileID: 9141427392576861950}
+--- !u!114 &1775105571216829653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4811083665281929704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585201768958d904399b5de4e282984d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackSpeedCooldown: 0.3
+  damage: 10
 --- !u!1 &7962421279037286502
 GameObject:
   m_ObjectHideFlags: 0

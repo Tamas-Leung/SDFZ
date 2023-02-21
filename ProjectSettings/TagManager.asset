@@ -41,9 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Enemy
+    uniqueID: 1063416877
+    locked: 0
+  - name: PopUp
+    uniqueID: 3058893199
+    locked: 0
   - name: Player
     uniqueID: 4063423131
     locked: 0
   - name: PlayerWeapon
     uniqueID: 3382308261
+    locked: 0
+  - name: Projectile
+    uniqueID: 1496990919
     locked: 0

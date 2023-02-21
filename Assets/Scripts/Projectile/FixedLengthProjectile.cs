@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FixedLengthProjectile : MonoBehaviour, Projectile
+public class FixedLengthProjectile : Projectile
 {
     [SerializeField] private float duration;
     [SerializeField] private float distance;
@@ -12,12 +12,10 @@ public class FixedLengthProjectile : MonoBehaviour, Projectile
     private Vector3 direction;
     private Vector3 targetPosition;
     private Vector3 startPosition;
-
     private float elapsedTime = 0;
 
-    public void Setup(Vector3 direction)
+    public override void SetupDirection(Vector3 direction)
     {
-        this.direction = direction;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.eulerAngles = new Vector3(0, 0, angle);
         startPosition = transform.position;
