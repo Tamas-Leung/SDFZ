@@ -6,10 +6,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Transform weaponHolderTransform;
     private int currentWeaponIndex = 0;
-    private GameObject currentWeapon;
+    public Weapon currentWeapon { get; private set; }
     private WeaponDatabase weaponDatabase;
-
-    public Type currentType { get; private set; }
 
     [SerializeField] private int baseMaxHealthPoints;
 
@@ -62,7 +60,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         weaponDatabase = GameObject.FindWithTag("GameController").GetComponent<WeaponDatabase>();
-        currentType = Type.Fire;
         currentHealth = baseMaxHealthPoints;
         currentMaxHealth = baseMaxHealthPoints;
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -93,14 +90,14 @@ public class Player : MonoBehaviour
     void SwitchWeapons()
     {
         currentWeaponIndex = (currentWeaponIndex + 1) % weaponDatabase.GetLength();
-        Destroy(currentWeapon);
+        Destroy(currentWeapon.gameObject);
         CreateWeapon();
     }
 
     void CreateWeapon()
     {
         Weapon currentWeaponPrefab = weaponDatabase.GetWeapon(currentWeaponIndex);
-        currentWeapon = Instantiate(currentWeaponPrefab.gameObject);
+        currentWeapon = Instantiate(currentWeaponPrefab);
         currentWeapon.transform.parent = weaponHolderTransform;
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;

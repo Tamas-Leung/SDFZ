@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackSpeedCooldown: 0.3
   damage: 10
+  type: 1
 --- !u!1 &7962421279037286502
 GameObject:
   m_ObjectHideFlags: 0

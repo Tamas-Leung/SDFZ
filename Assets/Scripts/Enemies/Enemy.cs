@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
             }
 
             DamagePopUp damagePopUp = damagePopUpTransform.GetComponent<DamagePopUp>();
-            damagePopUp.Setup(damageDealt, advantageDamage);
+            damagePopUp.Setup(damageDealt, advantageDamage, projectile.damageType);
             currentHealth -= projectile.damage;
         }
     }

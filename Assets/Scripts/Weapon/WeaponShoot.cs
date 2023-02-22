@@ -44,7 +44,7 @@ public class WeaponShoot : MonoBehaviour
 
             GameObject projectile = Instantiate(projectilePrefab, aimWeaponEndPointTransform.position, Quaternion.identity);
             Vector3 shootDirection = (mousePosition - transform.position).normalized;
-            projectile.GetComponent<Projectile>().Setup(shootDirection, player.attackPower * weapon.damage, player.currentType);
+            projectile.GetComponent<Projectile>().Setup(shootDirection, player.attackPower * weapon.damage, player.currentWeapon.type);
         }
     }
 }
