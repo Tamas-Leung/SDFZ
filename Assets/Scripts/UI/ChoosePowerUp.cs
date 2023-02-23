@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,6 +13,8 @@ public class ChoosePowerUp : MonoBehaviour
     private Label label2;
 
     private GameController gameController;
+    private Action<PowerUp> callbackFunction;
+    private PowerUp[] options;
 
     private void OnEnable()
     {
@@ -32,16 +35,18 @@ public class ChoosePowerUp : MonoBehaviour
         option2.RegisterCallback<ClickEvent>(ev => OnButtonPress(2));
     }
 
-    public void Init(string[] options)
+    public void Init(PowerUp[] options, Action<PowerUp> callback)
     {
-        label0.text = options[0];
-        label1.text = options[1];
-        label2.text = options[2];
+        callbackFunction = callback;
+        this.options = options;
+        label0.text = PowerUpMethods.GetPowerUpString(options[0]);
+        label1.text = PowerUpMethods.GetPowerUpString(options[1]);
+        label2.text = PowerUpMethods.GetPowerUpString(options[2]);
     }
 
     private void OnButtonPress(int index)
     {
-        gameController.ChoosePowerUp();
+        callbackFunction.Invoke(this.options[index]);
         Destroy(gameObject);
     }
 }

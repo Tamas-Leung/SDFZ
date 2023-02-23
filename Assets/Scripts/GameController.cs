@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject loseScreenPrefab;
 
     private List<Enemy> enemiesOnField;
+    private WeaponDatabase weaponDatabase;
 
     private List<Bounds> spawnAreas;
 
@@ -21,6 +22,8 @@ public class GameController : MonoBehaviour
 
     private Player player;
 
+    private int roundNumber;
+
     public GameState gameState;
 
     // Start is called before the first frame update
@@ -29,14 +32,30 @@ public class GameController : MonoBehaviour
         spawnAreas = new List<Bounds>();
         enemiesOnField = new List<Enemy>();
         maps = new Dictionary<Type, Map>();
+        weaponDatabase = GetComponent<WeaponDatabase>();
+        roundNumber = 0;
 
         maps.Add(Type.Water, GameObject.FindObjectOfType<WaterMap>());
         maps.Add(Type.Fire, GameObject.FindObjectOfType<FireMap>());
         maps.Add(Type.Wood, GameObject.FindObjectOfType<WoodMap>());
+        gameState = GameState.NotActive;
 
-        ChangeMap(Type.Fire);
+        ChoosePowerUp chooseWeapon = Instantiate<ChoosePowerUp>(choosePowerUpPrefab);
+        PowerUp[] options = {
+            new PowerUp(UpgradeOption.AddForm,Type.Fire, UpgradeTier.Epic),
+            new PowerUp(UpgradeOption.AddForm,Type.Water, UpgradeTier.Epic),
+            new PowerUp(UpgradeOption.AddForm,Type.Wood, UpgradeTier.Epic)
+        };
+        chooseWeapon.Init(options, StartGame);
+    }
+
+
+    void StartGame(PowerUp option)
+    {
+        ChangeMap((Type)option.value);
+        roundNumber++;
         SpawnPlayer();
-        SpawnEnemies();
+        ChoosePowerUp(option);
 
         player.OnCurrentHealthChange += CurrentHealthChange;
 
@@ -111,13 +130,23 @@ public class GameController : MonoBehaviour
         gameState = GameState.NotActive;
         RemoveOldEnemies();
         ChoosePowerUp choosePowerUp = Instantiate<ChoosePowerUp>(choosePowerUpPrefab);
-        String[] options = { "Test Option 1", "Test option2", "Test option 3" };
-        choosePowerUp.Init(options);
+        PowerUp[] options = PowerUpMethods.GetThreeRandomPowerUps();
+        choosePowerUp.Init(options, ChoosePowerUp);
     }
 
-    public void ChoosePowerUp()
+    public void ChoosePowerUp(PowerUp option)
     {
-        NextMap();
+        player.UsePowerUp(option);
+        StartNextRound();
+    }
+
+    public void StartNextRound()
+    {
+        roundNumber += 1;
+        if (roundNumber % 4 == 0)
+        {
+            NextMap();
+        }
         SpawnEnemies();
         CenterPlayer();
         gameState = GameState.Active;

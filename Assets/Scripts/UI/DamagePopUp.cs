@@ -19,10 +19,8 @@ public class DamagePopUp : MonoBehaviour
 
     public void Setup(float damageAmount, bool advantageDamage, Type damageType)
     {
-        Debug.Log(damageType);
         textMesh.SetText(Mathf.RoundToInt(damageAmount).ToString());
         if (advantageDamage) textMesh.fontSize = 5f;
-        Debug.Log(TypeMethods.GetColorFromType(damageType));
         textColor = TypeMethods.GetColorFromType(damageType);
         textMesh.color = textColor;
         isInit = true;

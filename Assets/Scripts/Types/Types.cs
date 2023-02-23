@@ -26,6 +26,21 @@ static class TypeMethods
         }
     }
 
+    public static string GetNameFromType(Type type)
+    {
+        switch (type)
+        {
+            case Type.Wood:
+                return "Wood";
+            case Type.Fire:
+                return "Fire";
+            case Type.Water:
+                return "Water";
+            default:
+                return "None";
+        }
+    }
+
     public static Type GetDisavantageType(Type type)
     {
         switch (type)
