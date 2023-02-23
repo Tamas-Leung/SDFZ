@@ -16,11 +16,11 @@ static class TypeMethods
         switch (type)
         {
             case Type.Wood:
-                return Color.green;
+                return new Color(0.3f, 1f, 0.3f, 1f);
             case Type.Fire:
-                return Color.red;
+                return new Color(1f, 0.3f, 0.3f, 1f);
             case Type.Water:
-                return Color.blue;
+                return new Color(0.3f, 0.3f, 1f, 1f);
             default:
                 return Color.white;
         }

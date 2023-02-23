@@ -10,7 +10,7 @@ public class PlayerWeaponAim : MonoBehaviour
 
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        sr = transform.Find("Sprite").GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame

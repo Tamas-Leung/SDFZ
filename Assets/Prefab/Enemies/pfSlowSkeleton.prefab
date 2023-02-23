@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5702061647920057118}
   - component: {fileID: 8439404040877766756}
   m_Layer: 0
-  m_Name: Skeleton
+  m_Name: pfSlowSkeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8439404040877766765}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.584, y: -0.058, z: 0.032062877}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -124,7 +124,7 @@ MonoBehaviour:
   pfDamagePopUp: {fileID: 6391046241235831589, guid: 2cd5bd3a53a8c8543b4bb93bd1594303, type: 3}
   healthPoints: 1000
   type: 0
-  movementSpeed: 1
+  movementSpeed: 0.8
   damage: 1
 --- !u!114 &8439404040877766754
 MonoBehaviour:

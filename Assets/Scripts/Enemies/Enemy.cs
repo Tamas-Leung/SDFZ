@@ -24,6 +24,11 @@ public class Enemy : MonoBehaviour
         SetupColor();
     }
 
+    public void SetBossType(Type type)
+    {
+        this.type = type;
+    }
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (isDead) return;

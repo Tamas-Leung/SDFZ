@@ -10,10 +10,11 @@ public class Player : MonoBehaviour
 
     [SerializeField] private int baseMaxHealthPoints;
 
-    [SerializeField] private float movementSpeed;
+    public float movementSpeed;
     public float attackPower;
-    [SerializeField] private float dashCooldown;
-    [SerializeField] private float dashRange;
+    public float dashCooldown;
+    public float dashRange;
+    public float dashDuration;
     public float attackSpeedReduction;
 
     public List<Type> currrentLearnedTypes;
@@ -65,7 +66,7 @@ public class Player : MonoBehaviour
         weaponDatabase = GameObject.FindWithTag("GameController").GetComponent<WeaponDatabase>();
         currentHealth = baseMaxHealthPoints;
         currentMaxHealth = baseMaxHealthPoints;
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
         damagedInvulnerabilityTimer = 0;
         CreateWeapon();
     }
@@ -114,7 +115,10 @@ public class Player : MonoBehaviour
 
     public void AddForm(Type form)
     {
-        currrentLearnedTypes.Add(form);
+        if (!currrentLearnedTypes.Contains(form))
+        {
+            currrentLearnedTypes.Add(form);
+        }
     }
 
     void OnTriggerStay2D(Collider2D collider2D)
@@ -150,7 +154,7 @@ public class Player : MonoBehaviour
                 dashRange += (float)powerUp.value;
                 break;
             case UpgradeOption.DecreaseDashCooldown:
-                dashCooldown += (float)powerUp.value;
+                dashCooldown -= (float)powerUp.value;
                 break;
             case UpgradeOption.AddForm:
                 AddForm((Type)powerUp.value);

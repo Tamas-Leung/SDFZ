@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private Enemy[] enemyPrefabDatabase;
+    [SerializeField] private Enemy bossEnemyPrefab;
     [SerializeField] private Player playerPrefab;
     [SerializeField] private ChoosePowerUp choosePowerUpPrefab;
     [SerializeField] private Health healthPrefab;
@@ -89,13 +89,19 @@ public class GameController : MonoBehaviour
 
     void SpawnEnemies()
     {
-        foreach (Bounds spawnArea in spawnAreas)
+        if (roundNumber % 4 == 0)
         {
-            for (int i = 0; i < 10; i++)
-            {
-                Vector2 spawnPosition = new Vector2(UnityEngine.Random.Range(spawnArea.min.x, spawnArea.max.x), UnityEngine.Random.Range(spawnArea.min.y, spawnArea.max.y));
-                enemiesOnField.Add(Instantiate<Enemy>(enemyPrefabDatabase[0], spawnPosition, Quaternion.identity));
-            }
+            Bounds spawnArea = spawnAreas[Random.Range(0, spawnAreas.Count)];
+            Vector2 spawnPosition = new Vector2(UnityEngine.Random.Range(spawnArea.min.x, spawnArea.max.x), UnityEngine.Random.Range(spawnArea.min.y, spawnArea.max.y));
+            Enemy bossEnemy = Instantiate<Enemy>(bossEnemyPrefab, spawnPosition, Quaternion.identity);
+            bossEnemy.SetBossType(activeMapType);
+            enemiesOnField.Add(bossEnemy);
+        }
+        for (int i = 0; i < 10 + roundNumber * 5; i++)
+        {
+            Bounds spawnArea = spawnAreas[Random.Range(0, spawnAreas.Count)];
+            Vector2 spawnPosition = new Vector2(UnityEngine.Random.Range(spawnArea.min.x, spawnArea.max.x), UnityEngine.Random.Range(spawnArea.min.y, spawnArea.max.y));
+            enemiesOnField.Add(Instantiate<Enemy>(enemyPrefabDatabase[Random.Range(0, enemyPrefabDatabase.Length)], spawnPosition, Quaternion.identity));
         }
     }
 
@@ -129,6 +135,10 @@ public class GameController : MonoBehaviour
     {
         gameState = GameState.NotActive;
         RemoveOldEnemies();
+        if (roundNumber % 4 == 0)
+        {
+            player.AddForm(activeMapType);
+        }
         ChoosePowerUp choosePowerUp = Instantiate<ChoosePowerUp>(choosePowerUpPrefab);
         PowerUp[] options = PowerUpMethods.GetThreeRandomPowerUps();
         choosePowerUp.Init(options, ChoosePowerUp);

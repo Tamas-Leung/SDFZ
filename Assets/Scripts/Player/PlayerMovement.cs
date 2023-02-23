@@ -6,22 +6,26 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    public float moveSpeed = 2f;
-
-    Rigidbody2D rb;
-    float horizontal;
-    float vertical;
+    private Rigidbody2D rb;
+    private float horizontal;
+    private float vertical;
+    private Player player;
     private Vector2 screenBounds;
     private float objectWidth;
     private float objectHeight;
     private Animator anim;
+    private float dashingCooldownTimer;
+    private bool dashing;
+    private bool pressedSpace;
+    [SerializeField] private AnimationCurve dashCurve;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        anim = transform.Find("Sprite").GetComponentInChildren<Animator>();
+        player = GetComponent<Player>();
         Camera mainCamera = FindObjectOfType<Camera>();
         screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
         objectWidth = transform.GetComponent<Collider2D>().bounds.extents.x; //extents = size of width / 2
@@ -33,21 +37,43 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
+        pressedSpace = Input.GetKeyDown(KeyCode.Space);
+
+        if (dashingCooldownTimer <= 0 && pressedSpace)
+        {
+            dashing = true;
+            anim.SetTrigger("Dash");
+            dashingCooldownTimer += player.dashCooldown;
+            StartCoroutine(Dash());
+        }
+
+        if (dashingCooldownTimer > 0)
+        {
+            dashingCooldownTimer -= Time.deltaTime;
+        }
+
+
     }
 
     private void FixedUpdate()
     {
 
-        //Move character 
-        Vector2 direction = new Vector2(horizontal, vertical);
-        direction.Normalize();
-        direction *= moveSpeed;
 
-        //Sets speed for animator, changing from idle to movement
-        anim.SetFloat("Speed", direction.magnitude);
+        if (!dashing)
+        {
+            //Move character 
+            Vector2 direction = new Vector2(horizontal, vertical);
+            direction.Normalize();
 
-        // Set Velocity
-        rb.velocity = direction;
+            Vector2 movement = direction * player.movementSpeed;
+
+            //Sets speed for animator, changing from idle to movement
+            anim.SetFloat("Speed", movement.magnitude);
+
+            // Set Velocity
+            rb.velocity = movement;
+        }
+
 
         // Clamp position to be within screen
         Vector3 viewPos = rb.position;
@@ -66,5 +92,26 @@ public class PlayerMovement : MonoBehaviour
             // Ignore Enemies in collision
             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
+    }
+
+    private IEnumerator Dash()
+    {
+        Vector2 startingPosition = transform.position;
+        Vector2 direction = new Vector2(horizontal, vertical);
+        Vector2 endPosition = startingPosition + direction * player.dashRange;
+        float elapsed = 0f;
+        //Reset Velocity
+        rb.velocity = Vector2.zero;
+
+        while (elapsed < player.dashDuration)
+        {
+            elapsed += Time.deltaTime;
+            float percentageComplete = Mathf.Clamp01(elapsed / player.dashDuration);
+            Vector2 nextPosition = Vector2.Lerp(startingPosition, endPosition, dashCurve.Evaluate(percentageComplete));
+            rb.MovePosition(nextPosition);
+            yield return null;
+        }
+
+        dashing = false;
     }
 }

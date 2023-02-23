@@ -36,7 +36,7 @@ public class WeaponShoot : MonoBehaviour
     {
         if (currentWeaponCooldown <= 0 && Input.GetButtonDown("Fire1"))
         {
-            currentWeaponCooldown = weapon.attackSpeedCooldown;
+            currentWeaponCooldown = weapon.attackSpeedCooldown - player.attackSpeedReduction;
 
 
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

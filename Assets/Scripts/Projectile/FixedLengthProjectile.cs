@@ -30,4 +30,12 @@ public class FixedLengthProjectile : Projectile
 
         transform.position = Vector3.Lerp(startPosition, targetPosition, moveCurve.Evaluate(percentageComplete));
     }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "Wall")
+        {
+            Destroy(gameObject);
+        }
+    }
 }

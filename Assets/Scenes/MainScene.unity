@@ -4540,7 +4540,7 @@ GameObject:
   - component: {fileID: 1299929673}
   m_Layer: 0
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7126,11 +7126,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabDatabase:
   - {fileID: 8439404040877766753, guid: 18345e9177ba6f14e80ee00a2c392baf, type: 3}
+  - {fileID: 8439404040877766753, guid: 64139b132030fc046bb3792952ed8ff4, type: 3}
+  - {fileID: 8439404040877766753, guid: 0c4cdf1c200e82646a8aed72b3494b6f, type: 3}
+  bossEnemyPrefab: {fileID: 8439404040877766753, guid: c52e5f90f2606794f8e240758137de8c, type: 3}
   playerPrefab: {fileID: 4873642724105851906, guid: 5067414a1d396f54197fcfe4a7ab8a86, type: 3}
   choosePowerUpPrefab: {fileID: 2070653956863111300, guid: bc677179d633e684085ce2c5eeb3ed98, type: 3}
   healthPrefab: {fileID: 3549368170100193261, guid: 8ed4994908fdad3499c98a0ddfeb19e5, type: 3}
   loseScreenPrefab: {fileID: 7594314784998638451, guid: 5d848cc95ef5913499edeec36ddd468b, type: 3}
-  active: 0
+  gameState: 0
 --- !u!1 &1844095817
 GameObject:
   m_ObjectHideFlags: 0
@@ -7147,7 +7150,7 @@ GameObject:
   - component: {fileID: 1844095822}
   m_Layer: 0
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7433,7 +7436,7 @@ GameObject:
   - component: {fileID: 1901132801}
   m_Layer: 0
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
