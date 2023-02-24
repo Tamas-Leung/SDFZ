@@ -157,8 +157,8 @@ public class GameController : MonoBehaviour
         {
             NextMap();
         }
-        SpawnEnemies();
         CenterPlayer();
+        SpawnEnemies();
         gameState = GameState.Active;
     }
 
