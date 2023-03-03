@@ -12,10 +12,13 @@ public class WeaponShoot : MonoBehaviour
     private Player player;
     private Weapon weapon;
 
+    private GameController gameController;
+
     private float currentWeaponCooldown;
 
     void Start()
     {
+        gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
         player = FindObjectOfType<Player>();
         weapon = GetComponent<Weapon>();
         currentWeaponCooldown = 0;
@@ -24,6 +27,10 @@ public class WeaponShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameController.gameState == GameState.NotActive) {
+            return;
+        }
+
         if (currentWeaponCooldown > 0)
         {
             currentWeaponCooldown -= Time.deltaTime;
@@ -34,7 +41,7 @@ public class WeaponShoot : MonoBehaviour
 
     void HandleShooting()
     {
-        if (currentWeaponCooldown <= 0 && Input.GetButtonDown("Fire1"))
+        if (currentWeaponCooldown <= 0 && Input.GetButton("Fire1"))
         {
             currentWeaponCooldown = weapon.attackSpeedCooldown - player.attackSpeedReduction;
 

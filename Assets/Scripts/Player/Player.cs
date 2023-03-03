@@ -20,6 +20,9 @@ public class Player : MonoBehaviour
     public List<Type> currrentLearnedTypes;
     public int currentTypeIndex;
 
+    
+    private GameController gameController;
+
 
     private int _currentHealth;
     public int currentHealth
@@ -57,13 +60,17 @@ public class Player : MonoBehaviour
     public delegate void OnCurrentMaxHealthChangeDelegate(int newVal);
     public event OnCurrentMaxHealthChangeDelegate OnCurrentMaxHealthChange;
 
+     public delegate void OnCurrentLearnedTypesChangeDelegate(List<Type> newVal);
+    public event OnCurrentLearnedTypesChangeDelegate OnCurrentLearnedTypesChange;
+
     private float damagedInvulnerabilityTimer;
     private SpriteRenderer spriteRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
-        weaponDatabase = GameObject.FindWithTag("GameController").GetComponent<WeaponDatabase>();
+        gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();;
+        weaponDatabase = gameController.GetComponent<WeaponDatabase>();
         currentHealth = baseMaxHealthPoints;
         currentMaxHealth = baseMaxHealthPoints;
         spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
@@ -74,6 +81,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameController.gameState == GameState.NotActive) {
+            return;
+        }
+
         if (damagedInvulnerabilityTimer > 0)
         {
             damagedInvulnerabilityTimer -= Time.deltaTime;
@@ -118,6 +129,7 @@ public class Player : MonoBehaviour
         if (!currrentLearnedTypes.Contains(form))
         {
             currrentLearnedTypes.Add(form);
+            OnCurrentLearnedTypesChange(currrentLearnedTypes);
         }
     }
 

@@ -18,12 +18,14 @@ public class PlayerMovement : MonoBehaviour
     private bool dashing;
     private bool pressedSpace;
     [SerializeField] private AnimationCurve dashCurve;
+    private GameController gameController;
 
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
         anim = transform.Find("Sprite").GetComponentInChildren<Animator>();
         player = GetComponent<Player>();
         Camera mainCamera = FindObjectOfType<Camera>();
@@ -35,11 +37,16 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameController.gameState == GameState.NotActive)
+        {
+            return;
+        }
+
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
         pressedSpace = Input.GetKeyDown(KeyCode.Space);
 
-        if (dashingCooldownTimer <= 0 && pressedSpace)
+        if (dashingCooldownTimer <= 0 && pressedSpace && (horizontal != 0 || vertical != 0))
         {
             dashing = true;
             anim.SetTrigger("Dash");
@@ -57,6 +64,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (gameController.gameState == GameState.NotActive)
+        {
+            rb.velocity = Vector2.zero;
+            return;
+        }
 
 
         if (!dashing)

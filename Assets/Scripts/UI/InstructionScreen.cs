@@ -4,19 +4,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class TitleScreen : MonoBehaviour
+public class InstructionScreen : MonoBehaviour
 {
     private void OnEnable()
     {
         VisualElement rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
 
-        Button startButton = rootVisualElement.Q<Button>(name: "Start");
+        Button beginButton = rootVisualElement.Q<Button>(name: "Begin");
 
-        startButton.RegisterCallback<ClickEvent>(ev => StartButton());
+        beginButton.RegisterCallback<ClickEvent>(ev => BeginButton());
     }
 
-    private void StartButton()
+    private void BeginButton()
     {
-        SceneManager.LoadScene("InstructionScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
     }
 }

@@ -4,25 +4,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Health : MonoBehaviour
+public class GameUi : MonoBehaviour
 {
 
     private Label label;
     private int currentHealth;
     private int maxHealth;
     private VisualElement[] heartContainers;
+    private VisualElement formsEarnedBox;
+    public VisualTreeAsset formEarnedTextBox;
 
     void OnEnable()
     {
         VisualElement rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         // label = rootVisualElement.Q<Label>(name: "Health");
         heartContainers = rootVisualElement.Q<GroupBox>("HeartGroupBox").Children().ToArray();
+        formsEarnedBox = rootVisualElement.Q<VisualElement>("FormEarnedBox");
     }
 
     public void Init(Player player)
     {
         player.OnCurrentHealthChange += CurrentHealthChange;
         player.OnCurrentMaxHealthChange += MaxHealthChange;
+        player.OnCurrentLearnedTypesChange += CurrentFormsChange;
         UpdateHealthVisual();
     }
 
@@ -36,6 +40,17 @@ public class Health : MonoBehaviour
     {
         maxHealth = newVal;
         UpdateHealthVisual();
+    }
+
+    void CurrentFormsChange(List<Type> types) {
+        formsEarnedBox.Clear();
+        foreach (Type type in types) {
+            
+            TemplateContainer formEarned = formEarnedTextBox.Instantiate();
+            Label label = formEarned.Q<Label>("Form");
+            label.text = TypeMethods.GetNameFromType(type);
+            formsEarnedBox.Add(formEarned);
+        }
     }
 
     void UpdateHealthVisual()

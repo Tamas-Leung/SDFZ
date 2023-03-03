@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Enemy bossEnemyPrefab;
     [SerializeField] private Player playerPrefab;
     [SerializeField] private ChoosePowerUp choosePowerUpPrefab;
-    [SerializeField] private Health healthPrefab;
+    [SerializeField] private GameUi gameUiPrefab;
     [SerializeField] private GameObject loseScreenPrefab;
 
     private List<Enemy> enemiesOnField;
@@ -108,8 +108,8 @@ public class GameController : MonoBehaviour
     void SpawnPlayer()
     {
         player = Instantiate<Player>(playerPrefab, Vector3.zero, Quaternion.identity);
-        Health health = Instantiate<Health>(healthPrefab);
-        health.Init(player);
+        GameUi gameUi = Instantiate<GameUi>(gameUiPrefab);
+        gameUi.Init(player);
     }
 
     // Update is called once per frame
@@ -164,7 +164,7 @@ public class GameController : MonoBehaviour
 
     void CenterPlayer()
     {
-        player.transform.position = Vector3.zero;
+        player.GetComponent<Rigidbody2D>().position = Vector3.zero;
     }
 
     void NextMap()

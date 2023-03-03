@@ -7131,7 +7131,7 @@ MonoBehaviour:
   bossEnemyPrefab: {fileID: 8439404040877766753, guid: c52e5f90f2606794f8e240758137de8c, type: 3}
   playerPrefab: {fileID: 4873642724105851906, guid: 5067414a1d396f54197fcfe4a7ab8a86, type: 3}
   choosePowerUpPrefab: {fileID: 2070653956863111300, guid: bc677179d633e684085ce2c5eeb3ed98, type: 3}
-  healthPrefab: {fileID: 3549368170100193261, guid: 8ed4994908fdad3499c98a0ddfeb19e5, type: 3}
+  gameUiPrefab: {fileID: 8240961838509908584, guid: 8ed4994908fdad3499c98a0ddfeb19e5, type: 3}
   loseScreenPrefab: {fileID: 7594314784998638451, guid: 5d848cc95ef5913499edeec36ddd468b, type: 3}
   gameState: 0
 --- !u!1 &1844095817
