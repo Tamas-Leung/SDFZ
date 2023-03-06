@@ -62,6 +62,11 @@ public class GameController : MonoBehaviour
         gameState = GameState.Active;
     }
 
+    public Player getPlayer()
+    {
+        return player;
+    }
+
     void ChangeMap(Type type)
     {
         activeMapType = type;
