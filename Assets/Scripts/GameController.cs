@@ -26,6 +26,12 @@ public class GameController : MonoBehaviour
 
     public GameState gameState;
 
+    public List<AudioSource> bgm;
+
+    private AudioSource m;
+
+    public AudioSource reward;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +75,29 @@ public class GameController : MonoBehaviour
 
     void ChangeMap(Type type)
     {
+
+        if (m)
+        {
+            m.Stop();
+        }
+        if (TypeMethods.GetNameFromType(type) == "Fire")
+        {
+            m = bgm.Find(x => x.name == "fire_normal");
+            m.volume = 0.5f;
+            m.Play();
+        }
+        else if (TypeMethods.GetNameFromType(type) == "Water")
+        {
+            m = bgm.Find(x => x.name == "water_normal");
+            m.volume = 0.5f;
+            m.Play();
+        }
+        else
+        {
+            m = bgm.Find(x => x.name == "wood_normal");
+            m.volume = 0.5f;
+            m.Play();
+        }
         activeMapType = type;
         DeactivateMaps();
         maps[activeMapType].gameObject.SetActive(true);
@@ -152,6 +181,7 @@ public class GameController : MonoBehaviour
     public void ChoosePowerUp(PowerUp option)
     {
         player.UsePowerUp(option);
+        reward.Play();
         StartNextRound();
     }
 

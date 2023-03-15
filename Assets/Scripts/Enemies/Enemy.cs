@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private float currentHealth;
     public bool isDead { get; private set; }
+    public AudioSource hit;
+    public AudioSource death;
 
     void Start()
     {
@@ -47,6 +49,7 @@ public class Enemy : MonoBehaviour
             DamagePopUp damagePopUp = damagePopUpTransform.GetComponent<DamagePopUp>();
             damagePopUp.Setup(damageDealt, advantageDamage, projectile.damageType);
             currentHealth -= projectile.damage;
+            hit.Play();
         }
     }
 
@@ -55,6 +58,7 @@ public class Enemy : MonoBehaviour
         if (!isDead && currentHealth <= 0)
         {
             isDead = true;
+            death.Play();
             anim.SetBool("Dead", true);
         }
     }

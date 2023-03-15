@@ -16,6 +16,9 @@ public class WeaponShoot : MonoBehaviour
 
     private float currentWeaponCooldown;
 
+    public AudioClip sound;
+    public AudioSource audioSource;
+
     void Start()
     {
         gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
@@ -44,7 +47,8 @@ public class WeaponShoot : MonoBehaviour
         if (currentWeaponCooldown <= 0 && Input.GetButton("Fire1"))
         {
             currentWeaponCooldown = weapon.attackSpeedCooldown - player.attackSpeedReduction;
-
+            if (audioSource == null) Debug.Log("null");
+            audioSource.PlayOneShot(sound);
 
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0;

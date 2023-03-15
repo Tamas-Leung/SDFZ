@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     
     private GameController gameController;
 
+    public AudioSource hit;
 
     private int _currentHealth;
     public int currentHealth
@@ -139,6 +140,7 @@ public class Player : MonoBehaviour
         {
             if (damagedInvulnerabilityTimer <= 0 && !enemy.isDead)
             {
+                hit.Play();
                 currentHealth = currentHealth - enemy.damage;
                 damagedInvulnerabilityTimer += 2;
             }

@@ -9,7 +9,6 @@ public class WeaponWheelController : MonoBehaviour
     public static int weaponID;
     private GameController gameController;
     private Player player = null;
-    public AudioSource change;
 
     void Start()
     {
@@ -22,7 +21,6 @@ public class WeaponWheelController : MonoBehaviour
         if (player == null)
         {
             player = gameController.getPlayer();
-            Debug.Log(player);
         }
         
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -32,7 +30,6 @@ public class WeaponWheelController : MonoBehaviour
 
         if (weaponWheelSelected)
         {
-            change.Play();
             anim.SetBool("OpenWeaponWheel", true);
         }
         else
@@ -43,7 +40,6 @@ public class WeaponWheelController : MonoBehaviour
         switch(weaponID)
         {
             case 1:
-                Debug.Log(player.currrentLearnedTypes);
                 break;
             case 2:
                 break;

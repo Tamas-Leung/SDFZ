@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private bool pressedSpace;
     [SerializeField] private AnimationCurve dashCurve;
     private GameController gameController;
+    public AudioSource dash;
 
 
     // Start is called before the first frame update
@@ -48,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (dashingCooldownTimer <= 0 && pressedSpace && (horizontal != 0 || vertical != 0))
         {
+            dash.Play();
             dashing = true;
             anim.SetTrigger("Dash");
             dashingCooldownTimer += player.dashCooldown;
