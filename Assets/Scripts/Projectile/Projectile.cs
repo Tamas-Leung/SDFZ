@@ -6,6 +6,7 @@ public abstract class Projectile : MonoBehaviour
 {
     public float damage { get; private set; }
     public Type damageType { get; private set; }
+    public bool IsEnemy;
 
     public void Setup(Vector3 direction, float damage, Type damageType)
     {

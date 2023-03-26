@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
-        if (collider.gameObject.TryGetComponent<Projectile>(out Projectile projectile))
+        if (collider.gameObject.TryGetComponent<Projectile>(out Projectile projectile) && !projectile.IsEnemy)
         {
             Transform damagePopUpTransform = Instantiate(pfDamagePopUp, transform.position, Quaternion.identity);
             float damageDealt = projectile.damage;

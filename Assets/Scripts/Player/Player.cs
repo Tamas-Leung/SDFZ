@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public List<Type> currrentLearnedTypes;
     public int currentTypeIndex;
 
-    
+
     private GameController gameController;
 
 
@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
     public delegate void OnCurrentMaxHealthChangeDelegate(int newVal);
     public event OnCurrentMaxHealthChangeDelegate OnCurrentMaxHealthChange;
 
-     public delegate void OnCurrentLearnedTypesChangeDelegate(List<Type> newVal);
+    public delegate void OnCurrentLearnedTypesChangeDelegate(List<Type> newVal);
     public event OnCurrentLearnedTypesChangeDelegate OnCurrentLearnedTypesChange;
 
     private float damagedInvulnerabilityTimer;
@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();;
+        gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>(); ;
         weaponDatabase = gameController.GetComponent<WeaponDatabase>();
         currentHealth = baseMaxHealthPoints;
         currentMaxHealth = baseMaxHealthPoints;
@@ -81,7 +81,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameController.gameState == GameState.NotActive) {
+        if (gameController.gameState == GameState.NotActive)
+        {
             return;
         }
 
@@ -142,6 +143,14 @@ public class Player : MonoBehaviour
                 currentHealth = currentHealth - enemy.damage;
                 damagedInvulnerabilityTimer += 2;
             }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider2D)
+    {
+        if (collider2D.TryGetComponent<Projectile>(out Projectile projectile) && projectile.IsEnemy)
+        {
+            currentHealth -= (int)projectile.damage;
         }
     }
 
