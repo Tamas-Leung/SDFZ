@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public enum UpgradeOption
 {
@@ -49,9 +50,9 @@ public class PowerUpMethods
         new PowerUp(UpgradeOption.IncreaseMoveSpeed, 0.4f, UpgradeTier.Epic),
         new PowerUp(UpgradeOption.IncreaseMoveSpeed, 0.2f, UpgradeTier.Rare),
         new PowerUp(UpgradeOption.IncreaseMoveSpeed, 0.1f, UpgradeTier.Common),
-        new PowerUp(UpgradeOption.DecreaseAttackCooldown, 0.2f, UpgradeTier.Epic),
-        new PowerUp(UpgradeOption.DecreaseAttackCooldown, 0.1f, UpgradeTier.Rare),
-        new PowerUp(UpgradeOption.DecreaseAttackCooldown, 0.05f, UpgradeTier.Common),
+        new PowerUp(UpgradeOption.DecreaseAttackCooldown, 0.05f, UpgradeTier.Epic),
+        new PowerUp(UpgradeOption.DecreaseAttackCooldown, 0.02f, UpgradeTier.Rare),
+        new PowerUp(UpgradeOption.DecreaseAttackCooldown, 0.01f, UpgradeTier.Common),
         new PowerUp(UpgradeOption.IncreaseDashRange, 0.5f, UpgradeTier.Epic),
         new PowerUp(UpgradeOption.IncreaseDashRange, 0.2f, UpgradeTier.Rare),
         new PowerUp(UpgradeOption.IncreaseDashRange, 0.1f, UpgradeTier.Common),
@@ -71,7 +72,7 @@ public class PowerUpMethods
             case UpgradeOption.IncreaseMoveSpeed:
                 return $"Increase Move speed by {powerUp.value}";
             case UpgradeOption.DecreaseAttackCooldown:
-                return $"Decrease Attack Cooldown by {powerUp.value}";
+                return $"Decrease Attack Cooldown by {((float)powerUp.value) * 100}%";
             case UpgradeOption.IncreaseDashRange:
                 return $"Increase Dash Range by {powerUp.value}";
             case UpgradeOption.DecreaseDashCooldown:
@@ -85,17 +86,61 @@ public class PowerUpMethods
 
     public static PowerUp[] GetThreeRandomPowerUps()
     {
-        List<int> randomIndexes = new List<int>();
-        Random rand = new Random();
-        while (randomIndexes.Count < 3)
+        List<PowerUp> randomPowerUps = new List<PowerUp>();
+
+        int totalWeight = 0;
+        foreach (PowerUp powerUp in powerUps)
         {
-            int index = rand.Next(0, powerUps.Length);
-            if (!randomIndexes.Contains(index))
+            totalWeight += getPowerUpWeight(powerUp);
+        }
+
+        System.Random rand = new System.Random();
+        while (randomPowerUps.Count < 3)
+        {
+            int randomWeight = rand.Next(0, totalWeight);
+
+            int currentWeight = 0;
+            foreach (PowerUp powerUp in powerUps)
             {
-                randomIndexes.Add(index);
+                currentWeight += getPowerUpWeight(powerUp);
+                if (randomWeight <= currentWeight)
+                {
+                    randomPowerUps.Add(powerUp);
+                    break;
+                }
             }
         }
 
-        return randomIndexes.ConvertAll<PowerUp>(index => powerUps[index]).ToArray();
+        return randomPowerUps.ToArray();
+    }
+
+    public static Color GetColorFromRarity(PowerUp powerUp)
+    {
+        switch (powerUp.tier)
+        {
+            case UpgradeTier.Common:
+                return new Color(0.86f, 0.86f, 0.86f);
+            case UpgradeTier.Epic:
+                return new Color(0.54f, 0.17f, 0.89f);
+            case UpgradeTier.Rare:
+                return new Color(0.12f, 0.56f, 1f);
+            default:
+                return Color.white;
+        }
+    }
+
+    private static int getPowerUpWeight(PowerUp powerUp)
+    {
+        switch (powerUp.tier)
+        {
+            case UpgradeTier.Common:
+                return 6;
+            case UpgradeTier.Epic:
+                return 1;
+            case UpgradeTier.Rare:
+                return 3;
+            default:
+                return 6;
+        }
     }
 }

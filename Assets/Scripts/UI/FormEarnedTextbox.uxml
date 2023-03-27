@@ -1,3 +1,3 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Label text="Label" display-tooltip-when-elided="true" name="Form" style="width: auto; max-width: initial; color: rgba(255, 255, 255, 255);" />
+    <ui:Label text="Label" display-tooltip-when-elided="true" name="Form" style="width: auto; max-width: initial; color: rgb(255, 255, 255); -unity-font-definition: url(&apos;project://database/Assets/Fonts/Hogback%20Demo%20Version%20SDF.asset?fileID=11400000&amp;guid=5998b5c1f96ef7d45861f5bcb649be9d&amp;type=2#Hogback Demo Version SDF&apos;); font-size: 30px;" />
 </ui:UXML>

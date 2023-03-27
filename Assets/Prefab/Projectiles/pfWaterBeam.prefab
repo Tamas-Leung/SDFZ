@@ -72,6 +72,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24a3366bc85437540bd2fecb86a7bf77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsEnemy: 0
+  audioClip: {fileID: 8300000, guid: 8c0a90a7eff87df459a28444e8ce3e9a, type: 3}
   duration: 0.2
 --- !u!1 &4023322999882534811
 GameObject:

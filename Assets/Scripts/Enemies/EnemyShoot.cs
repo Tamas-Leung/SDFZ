@@ -19,7 +19,7 @@ public class EnemyShoot : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         enemy = GetComponent<Enemy>();
-        currentAttackCooldown = baseAttackCooldown;
+        currentAttackCooldown = baseAttackCooldown + Random.Range(-1f, 1f);
     }
 
     // Update is called once per frame
@@ -29,7 +29,7 @@ public class EnemyShoot : MonoBehaviour
         {
             currentAttackCooldown -= Time.deltaTime;
         }
-        else
+        else if (!enemy.isDead)
         {
             currentAttackCooldown = baseAttackCooldown;
             FireProjectile();

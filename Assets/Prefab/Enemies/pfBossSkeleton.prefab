@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8439404040877766754}
   - component: {fileID: 5702061647920057118}
   - component: {fileID: 8439404040877766756}
+  - component: {fileID: 6790841066528029311}
   m_Layer: 0
   m_Name: pfBossSkeleton
   m_TagString: Untagged
@@ -126,6 +127,7 @@ MonoBehaviour:
   type: 0
   movementSpeed: 0.6
   damage: 1
+  DamagedSoundEffect: {fileID: 8300000, guid: 803ddef5a7701fc4a8ba6c5392ec424e, type: 3}
 --- !u!114 &8439404040877766754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,3 +187,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &6790841066528029311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8439404040877766765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a8c682695c22b45a8a90c5d5ec2a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 7856919437408089943, guid: 0cef992f5d6d2db44beb1abb841602b9, type: 3}
+  baseAttackCooldown: 2

@@ -13,6 +13,7 @@ public class GameUi : MonoBehaviour
     private VisualElement[] heartContainers;
     private VisualElement formsEarnedBox;
     public VisualTreeAsset formEarnedTextBox;
+    private Label roundNumber;
 
     void OnEnable()
     {
@@ -20,13 +21,15 @@ public class GameUi : MonoBehaviour
         // label = rootVisualElement.Q<Label>(name: "Health");
         heartContainers = rootVisualElement.Q<GroupBox>("HeartGroupBox").Children().ToArray();
         formsEarnedBox = rootVisualElement.Q<VisualElement>("FormEarnedBox");
+        roundNumber = rootVisualElement.Q<Label>("RoundNumber");
     }
 
-    public void Init(Player player)
+    public void Init(Player player, GameController gameController)
     {
         player.OnCurrentHealthChange += CurrentHealthChange;
         player.OnCurrentMaxHealthChange += MaxHealthChange;
         player.OnCurrentLearnedTypesChange += CurrentFormsChange;
+        gameController.OnRoundNumberChange += UpdateRoundNumber;
         UpdateHealthVisual();
     }
 
@@ -42,10 +45,12 @@ public class GameUi : MonoBehaviour
         UpdateHealthVisual();
     }
 
-    void CurrentFormsChange(List<Type> types) {
+    void CurrentFormsChange(List<Type> types)
+    {
         formsEarnedBox.Clear();
-        foreach (Type type in types) {
-            
+        foreach (Type type in types)
+        {
+
             TemplateContainer formEarned = formEarnedTextBox.Instantiate();
             Label label = formEarned.Q<Label>("Form");
             label.text = TypeMethods.GetNameFromType(type);
@@ -71,5 +76,10 @@ public class GameUi : MonoBehaviour
                 heartContainer.style.unityBackgroundImageTintColor = Color.clear;
             }
         }
+    }
+
+    void UpdateRoundNumber(int newVal)
+    {
+        roundNumber.text = $"Round Number: {newVal}";
     }
 }

@@ -17,6 +17,6 @@ public class TitleScreen : MonoBehaviour
 
     private void StartButton()
     {
-        SceneManager.LoadScene("InstructionScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("StoryScene", LoadSceneMode.Single);
     }
 }

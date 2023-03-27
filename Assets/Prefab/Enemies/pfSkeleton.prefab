@@ -126,6 +126,7 @@ MonoBehaviour:
   type: 0
   movementSpeed: 1
   damage: 1
+  DamagedSoundEffect: {fileID: 8300000, guid: 687d45d99f138b844a80566891940d66, type: 3}
 --- !u!114 &8439404040877766754
 MonoBehaviour:
   m_ObjectHideFlags: 0

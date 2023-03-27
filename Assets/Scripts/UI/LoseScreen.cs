@@ -9,6 +9,11 @@ public class LoseScreen : MonoBehaviour
     private void OnEnable()
     {
         VisualElement rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
+        Label score = rootVisualElement.Q<Label>(name: "Score");
+
+        int roundNumber = FindObjectOfType<GameController>().roundNumber;
+        score.text = $"Score: {roundNumber}";
+
 
         Button mainMenuButton = rootVisualElement.Q<Button>(name: "MainMenuButton");
         mainMenuButton.RegisterCallback<ClickEvent>(ev =>
