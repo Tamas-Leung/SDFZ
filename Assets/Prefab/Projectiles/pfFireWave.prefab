@@ -157,8 +157,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8adf254fcf499c5499662a4a196ac633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.4
-  distance: 5
+  IsEnemy: 0
+  audioClip: {fileID: 8300000, guid: 7886cf8229057574e87098e2faa0e3ff, type: 3}
+  duration: 0.3
+  distance: 2.5
   moveCurve:
     serializedVersion: 2
     m_Curve:

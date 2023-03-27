@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     private bool pressedSpace;
     [SerializeField] private AnimationCurve dashCurve;
     private GameController gameController;
+    public AudioClip dashSound;
+    private AudioSource audioSource;
 
 
     // Start is called before the first frame update
@@ -29,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         anim = transform.Find("Sprite").GetComponentInChildren<Animator>();
         player = GetComponent<Player>();
         Camera mainCamera = FindObjectOfType<Camera>();
+        audioSource = mainCamera.GetComponent<AudioSource>();
         screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
         objectWidth = transform.GetComponent<Collider2D>().bounds.extents.x; //extents = size of width / 2
         objectHeight = transform.GetComponent<Collider2D>().bounds.extents.y; //extents = size of height / 2
@@ -114,6 +117,8 @@ public class PlayerMovement : MonoBehaviour
         float elapsed = 0f;
         //Reset Velocity
         rb.velocity = Vector2.zero;
+
+        audioSource.PlayOneShot(dashSound);
 
         while (elapsed < player.dashDuration)
         {

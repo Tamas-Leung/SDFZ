@@ -73,6 +73,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8adf254fcf499c5499662a4a196ac633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsEnemy: 0
+  audioClip: {fileID: 8300000, guid: f0032dd19f1344c44b8523fb16362c33, type: 3}
   duration: 2
   distance: 10
   moveCurve:

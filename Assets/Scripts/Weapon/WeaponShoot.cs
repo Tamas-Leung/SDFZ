@@ -27,7 +27,8 @@ public class WeaponShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameController.gameState == GameState.NotActive) {
+        if (gameController.gameState == GameState.NotActive)
+        {
             return;
         }
 
@@ -43,7 +44,7 @@ public class WeaponShoot : MonoBehaviour
     {
         if (currentWeaponCooldown <= 0 && Input.GetButton("Fire1"))
         {
-            currentWeaponCooldown = weapon.attackSpeedCooldown - player.attackSpeedReduction;
+            currentWeaponCooldown = weapon.attackSpeedCooldown * (1 - player.attackSpeedReduction);
 
 
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

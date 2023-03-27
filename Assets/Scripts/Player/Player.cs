@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
     [SerializeField] private Transform weaponHolderTransform;
+    [SerializeField] private GameObject gainNewPowerUpPrefab;
+
     public Weapon currentWeapon { get; private set; }
     private WeaponDatabase weaponDatabase;
 
@@ -20,8 +23,11 @@ public class Player : MonoBehaviour
     public List<Type> currrentLearnedTypes;
     public int currentTypeIndex;
 
-    
+
     private GameController gameController;
+    public AudioClip playerDamagedAudioClip;
+    public AudioClip playerFormChangeAudioClip;
+    private AudioSource audioSource;
 
 
     private int _currentHealth;
@@ -60,7 +66,7 @@ public class Player : MonoBehaviour
     public delegate void OnCurrentMaxHealthChangeDelegate(int newVal);
     public event OnCurrentMaxHealthChangeDelegate OnCurrentMaxHealthChange;
 
-     public delegate void OnCurrentLearnedTypesChangeDelegate(List<Type> newVal);
+    public delegate void OnCurrentLearnedTypesChangeDelegate(List<Type> newVal);
     public event OnCurrentLearnedTypesChangeDelegate OnCurrentLearnedTypesChange;
 
     private float damagedInvulnerabilityTimer;
@@ -69,10 +75,11 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();;
+        gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>(); ;
         weaponDatabase = gameController.GetComponent<WeaponDatabase>();
         currentHealth = baseMaxHealthPoints;
         currentMaxHealth = baseMaxHealthPoints;
+        audioSource = Camera.main.GetComponent<AudioSource>();
         spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
         damagedInvulnerabilityTimer = 0;
         CreateWeapon();
@@ -81,7 +88,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameController.gameState == GameState.NotActive) {
+        if (gameController.gameState == GameState.NotActive)
+        {
             return;
         }
 
@@ -96,7 +104,7 @@ public class Player : MonoBehaviour
             if (spriteRenderer.color == Color.yellow) spriteRenderer.color = Color.white;
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && currrentLearnedTypes.Count > 1)
         {
             SwitchWeapons();
         }
@@ -105,6 +113,7 @@ public class Player : MonoBehaviour
     void SwitchWeapons()
     {
         currentTypeIndex = (currentTypeIndex + 1) % currrentLearnedTypes.Count;
+        audioSource.PlayOneShot(playerFormChangeAudioClip);
         Destroy(currentWeapon.gameObject);
         CreateWeapon();
     }
@@ -129,17 +138,36 @@ public class Player : MonoBehaviour
         if (!currrentLearnedTypes.Contains(form))
         {
             currrentLearnedTypes.Add(form);
+            if (currrentLearnedTypes.Count > 1)
+            {
+                GameObject gainPowerUpPopUp = Instantiate<GameObject>(gainNewPowerUpPrefab);
+                Destroy(gainPowerUpPopUp, 5);
+            }
             OnCurrentLearnedTypesChange(currrentLearnedTypes);
         }
     }
 
     void OnTriggerStay2D(Collider2D collider2D)
     {
-        if (collider2D.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+        if (gameController.gameState == GameState.Active && collider2D.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
             if (damagedInvulnerabilityTimer <= 0 && !enemy.isDead)
             {
+                audioSource.PlayOneShot(playerDamagedAudioClip);
                 currentHealth = currentHealth - enemy.damage;
+                damagedInvulnerabilityTimer += 2;
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider2D)
+    {
+        if (gameController.gameState == GameState.Active && collider2D.TryGetComponent<Projectile>(out Projectile projectile) && projectile.IsEnemy)
+        {
+            if (damagedInvulnerabilityTimer <= 0)
+            {
+                audioSource.PlayOneShot(playerDamagedAudioClip);
+                currentHealth -= (int)projectile.damage;
                 damagedInvulnerabilityTimer += 2;
             }
         }
@@ -151,22 +179,29 @@ public class Player : MonoBehaviour
         {
             case UpgradeOption.IncreaseMaxHealth:
                 currentMaxHealth += (int)powerUp.value;
+                currentMaxHealth = Mathf.Min(currentMaxHealth, 10);
                 currentHealth += (int)powerUp.value;
+                currentHealth = Mathf.Min(currentHealth, 10);
                 break;
             case UpgradeOption.IncreaseAttackPower:
                 attackPower += (float)powerUp.value;
+                attackPower = Mathf.Min(attackPower, 20);
                 break;
             case UpgradeOption.IncreaseMoveSpeed:
                 movementSpeed += (float)powerUp.value;
+                movementSpeed = Mathf.Min(movementSpeed, 6);
                 break;
             case UpgradeOption.DecreaseAttackCooldown:
                 attackSpeedReduction += (float)powerUp.value;
+                attackSpeedReduction = Mathf.Min(attackSpeedReduction, 0.8f);
                 break;
             case UpgradeOption.IncreaseDashRange:
                 dashRange += (float)powerUp.value;
+                dashRange = Mathf.Min(dashRange, 6f);
                 break;
             case UpgradeOption.DecreaseDashCooldown:
                 dashCooldown -= (float)powerUp.value;
+                dashRange = Mathf.Min(dashRange, 2.5f);
                 break;
             case UpgradeOption.AddForm:
                 AddForm((Type)powerUp.value);

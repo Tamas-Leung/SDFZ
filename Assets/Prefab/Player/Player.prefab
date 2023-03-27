@@ -225,6 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponHolderTransform: {fileID: 4873642723599680077}
+  gainNewPowerUpPrefab: {fileID: 2729978677924628630, guid: 70e86ea410ed5b740b9e842adc304b27, type: 3}
   baseMaxHealthPoints: 3
   movementSpeed: 2
   attackPower: 10
@@ -234,6 +235,8 @@ MonoBehaviour:
   attackSpeedReduction: 0
   currrentLearnedTypes: 
   currentTypeIndex: 0
+  playerDamagedAudioClip: {fileID: 8300000, guid: f790308e9004ecb44a8bb76b123870d1, type: 3}
+  playerFormChangeAudioClip: {fileID: 8300000, guid: eeeee5742161adb40aa5c3d8dd867169, type: 3}
 --- !u!114 &4873642724105851964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +273,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  dashSound: {fileID: 8300000, guid: 8a0fbd787429bce4c9fff1faccbee4f8, type: 3}
 --- !u!114 &4873642724105851907
 MonoBehaviour:
   m_ObjectHideFlags: 0

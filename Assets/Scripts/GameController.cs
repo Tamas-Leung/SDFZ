@@ -22,7 +22,24 @@ public class GameController : MonoBehaviour
 
     private Player player;
 
-    private int roundNumber;
+    private int _roundNumber;
+    public int roundNumber
+    {
+        get
+        {
+            return _roundNumber;
+        }
+        set
+        {
+            if (_roundNumber == value) return;
+            _roundNumber = value;
+            if (OnRoundNumberChange != null)
+                OnRoundNumberChange(_roundNumber);
+        }
+    }
+
+    public delegate void OnRoundNumberChangeDelegate(int newVal);
+    public event OnRoundNumberChangeDelegate OnRoundNumberChange;
 
     public GameState gameState;
 
@@ -53,7 +70,6 @@ public class GameController : MonoBehaviour
     void StartGame(PowerUp option)
     {
         ChangeMap((Type)option.value);
-        roundNumber++;
         SpawnPlayer();
         ChoosePowerUp(option);
 
@@ -91,17 +107,23 @@ public class GameController : MonoBehaviour
     {
         if (roundNumber % 4 == 0)
         {
-            Bounds spawnArea = spawnAreas[Random.Range(0, spawnAreas.Count)];
-            Vector2 spawnPosition = new Vector2(UnityEngine.Random.Range(spawnArea.min.x, spawnArea.max.x), UnityEngine.Random.Range(spawnArea.min.y, spawnArea.max.y));
-            Enemy bossEnemy = Instantiate<Enemy>(bossEnemyPrefab, spawnPosition, Quaternion.identity);
-            bossEnemy.SetBossType(activeMapType);
-            enemiesOnField.Add(bossEnemy);
+            for (int i = 0; i < Mathf.Ceil(roundNumber / 4.0f); i++)
+            {
+                Bounds spawnArea = spawnAreas[Random.Range(0, spawnAreas.Count)];
+                Vector2 spawnPosition = new Vector2(UnityEngine.Random.Range(spawnArea.min.x, spawnArea.max.x), UnityEngine.Random.Range(spawnArea.min.y, spawnArea.max.y));
+                Enemy bossEnemy = Instantiate<Enemy>(bossEnemyPrefab, spawnPosition, Quaternion.identity);
+                bossEnemy.ScaleStats(roundNumber);
+                bossEnemy.SetBossType(activeMapType);
+                enemiesOnField.Add(bossEnemy);
+            }
         }
         for (int i = 0; i < 10 + roundNumber * 5; i++)
         {
             Bounds spawnArea = spawnAreas[Random.Range(0, spawnAreas.Count)];
             Vector2 spawnPosition = new Vector2(UnityEngine.Random.Range(spawnArea.min.x, spawnArea.max.x), UnityEngine.Random.Range(spawnArea.min.y, spawnArea.max.y));
-            enemiesOnField.Add(Instantiate<Enemy>(enemyPrefabDatabase[Random.Range(0, enemyPrefabDatabase.Length)], spawnPosition, Quaternion.identity));
+            Enemy newEnemy = Instantiate<Enemy>(enemyPrefabDatabase[Random.Range(0, enemyPrefabDatabase.Length)], spawnPosition, Quaternion.identity);
+            newEnemy.ScaleStats(roundNumber);
+            enemiesOnField.Add(newEnemy);
         }
     }
 
@@ -109,7 +131,7 @@ public class GameController : MonoBehaviour
     {
         player = Instantiate<Player>(playerPrefab, Vector3.zero, Quaternion.identity);
         GameUi gameUi = Instantiate<GameUi>(gameUiPrefab);
-        gameUi.Init(player);
+        gameUi.Init(player, this);
     }
 
     // Update is called once per frame

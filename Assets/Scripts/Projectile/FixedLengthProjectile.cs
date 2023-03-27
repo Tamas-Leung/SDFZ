@@ -37,5 +37,10 @@ public class FixedLengthProjectile : Projectile
         {
             Destroy(gameObject);
         }
+        if (IsEnemy && collider.gameObject.TryGetComponent<Projectile>(out Projectile otherProjectile) && !otherProjectile.IsEnemy)
+        {
+            if (otherProjectile.damageType == TypeMethods.GetDisavantageType(damageType))
+                Destroy(gameObject);
+        }
     }
 }
