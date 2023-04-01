@@ -41,6 +41,9 @@ public class EnemyShoot : MonoBehaviour
         Vector3 playerPosition = player.transform.position;
         playerPosition.z = 0;
 
+        playerPosition.x += Random.Range(-0.5f, 0.5f);
+        playerPosition.y += Random.Range(-0.5f, 0.5f);
+
         Projectile projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         Vector3 shootDirection = (playerPosition - transform.position).normalized;
         projectile.Setup(shootDirection, enemy.damage, enemy.type);
